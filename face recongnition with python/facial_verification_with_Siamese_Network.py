@@ -170,8 +170,10 @@ class Dataset():
 
         return train_data, test_data
 
-class Siamese_model():
-    
+class Siamese_model(Layer):
+    def __init__(self, **kwargs):
+        super().__init__()
+
     # Embedding Layer
     def make_embedding(self):
         inp = Input(shape=(105,105,3), name='input_image')
@@ -196,3 +198,18 @@ class Siamese_model():
 
         return Model(inputs=[inp], outputs=[d1], name='embedding')
 
+    def L1Dist(self, input_embedding, validation_embedding):
+        return tf.math.abs(input_embedding - validation_embedding)
+
+    def make_siamese_model(self):
+        
+        input_image = Input(name='input_img', shape=(105,105,3))
+        validation_image = Input(name='validation_img', shape=(105,105,3))
+
+        embedding = self.make_embedding()
+
+        distances = self.L1Dist(embedding(input_image),embedding(validation_image))
+
+        classifier = Dense(1, activation='sigmoid')(distances)
+
+        return Model(inputs=[input_image, validation_image], outputs=classifier, name='SiameseNetwork')
