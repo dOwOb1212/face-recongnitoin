@@ -1,1 +1,5 @@
 face\ recongnition/data/*
+face\ recongnition/training_checkpoints/*
+face\ recongnition/test_model.py
+face\ recongnition/siamesemodel.h5
+face\ recongnition/Facial\ Verification\ with\ a\ Siamese\ Network\ -\ Part\ 7.ipynb
